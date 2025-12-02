@@ -6,7 +6,7 @@ services:
     repo: https://github.com/leonardoalvarengaa/trabalho-frameworks-II
     branch: main
     rootDir: backend
-    dockerfilePath: backend/Dockerfile
+    dockerfilePath: Dockerfile
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
