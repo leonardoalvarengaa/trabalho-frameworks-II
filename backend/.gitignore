@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Aiven truststore
+backend/aiven-truststore.jks
+backend/aiven-truststore.jks.b64
+backend/certs/
