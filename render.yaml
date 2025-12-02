@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: projeto-vagas-backend
+    env: docker
+    plan: free
+    repo: "https://github.com/leonardoalvarengaa/trabalho-frameworks-II/tree/feat/leonardo-backend"
+    branch: main
+    rootDir: backend
+    buildCommand: docker build -t projeto-vagas-backend backend
+    startCommand: docker run -p 8080:8080 --rm \
+      -e SPRING_DATASOURCE_URL="$SPRING_DATASOURCE_URL" \
+      -e SPRING_DATASOURCE_USERNAME="$SPRING_DATASOURCE_USERNAME" \
+      -e SPRING_DATASOURCE_PASSWORD="$SPRING_DATASOURCE_PASSWORD" \
+      projeto-vagas-backend
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        scope: secret
+      - key: SPRING_DATASOURCE_USERNAME
+        scope: secret
+      - key: SPRING_DATASOURCE_PASSWORD
+        scope: secret
