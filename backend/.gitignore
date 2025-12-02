@@ -32,8 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 
-# arquivos sensíveis Aiven
-/backend/aiven-truststore.jks
-/backend/aiven-truststore.jks.b64
-/backend/certs/
-
+# Aiven truststore
+backend/aiven-truststore.jks
+backend/aiven-truststore.jks.b64
+backend/certs/
