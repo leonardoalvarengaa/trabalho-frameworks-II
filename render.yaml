@@ -1,13 +1,18 @@
 services:
   - type: web
     name: projeto-vagas-backend
-    env: standard
+    runtime: docker
     plan: free
-    repo: "https://github.com/leonardoalvarengaa/trabalho-frameworks-II"
+    repo: https://github.com/leonardoalvarengaa/trabalho-frameworks-II
     branch: main
     rootDir: backend
-    buildCommand: "./mvnw -DskipTests=true package"
-    startCommand: "java -jar target/*.jar"
+    dockerfilePath: backend/Dockerfile
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
+      - key: SPRING_DATASOURCE_URL
+        sync: false
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
