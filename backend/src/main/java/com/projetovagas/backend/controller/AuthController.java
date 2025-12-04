@@ -3,7 +3,9 @@ package com.projetovagas.backend.controller;
 import com.projetovagas.backend.model.AppUser;
 import com.projetovagas.backend.repository.AppUserRepository;
 import com.projetovagas.backend.security.JwtUtil;
-import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
@@ -20,7 +22,10 @@ public class AuthController {
   private final JwtUtil jwtUtil;
 
   public AuthController(AppUserRepository repo, PasswordEncoder encoder, AuthenticationManager authManager, JwtUtil jwtUtil) {
-    this.repo = repo; this.encoder = encoder; this.authManager = authManager; this.jwtUtil = jwtUtil;
+    this.repo = repo;
+    this.encoder = encoder;
+    this.authManager = authManager;
+    this.jwtUtil = jwtUtil;
   }
 
   @PostMapping("/register")
@@ -39,18 +44,12 @@ public class AuthController {
   public ResponseEntity<?> login(@RequestBody Map<String,String> body) {
     try {
       String username = body.get("username"), pwd = body.get("password");
-      Authentication auth = new UsernamePasswordAuthenticationToken(username, pwd);
-      authManager.authenticate(auth);
+      authManager.authenticate(new UsernamePasswordAuthenticationToken(username, pwd));
       var userDetails = org.springframework.security.core.userdetails.User.withUsername(username).password("").roles("USER").build();
       String token = jwtUtil.generateToken(userDetails);
       return ResponseEntity.ok(Map.of("token", token));
     } catch (AuthenticationException ex) {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error","invalid credentials"));
     }
-  }
-
-  @Bean
-  public AuthenticationManager authManager(org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration config) throws Exception {
-    return config.getAuthenticationManager();
   }
 }
