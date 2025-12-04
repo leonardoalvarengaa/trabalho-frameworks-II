@@ -1,22 +1,21 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-import Container from '@mui/material/Container'
-import Navbar from './components/Navbar'
-import Home from './pages/Home'
-import NewVaga from './pages/NewVaga'
-import VagaDetails from './pages/VagaDetails'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import NewVaga from "./pages/NewVaga";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Navbar from "./components/Navbar";
 
-export default function App(){
+export default function App() {
   return (
     <>
       <Navbar />
-      <Container maxWidth="md" sx={{ mt: 4 }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/vagas/new" element={<NewVaga />} />
-          <Route path="/vagas/:id" element={<VagaDetails />} />
-        </Routes>
-      </Container>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/new" element={<NewVaga />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
     </>
-  )
+  );
 }
