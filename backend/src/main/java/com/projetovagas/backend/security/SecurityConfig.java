@@ -63,9 +63,11 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         // em dev: permita o frontend local; em produção, coloque o domínio real
         config.setAllowedOrigins(List.of(
-            "http://localhost:5173", // Vite
-            "http://localhost:3000"  // CRA (se você usar)
+        "http://localhost:5173", // dev
+        "https://trab-frameworks-ii-git-main-leonardo-s-projects-d7597549.vercel.app",
+        "https://www.seu-dominio.vercel.app" // outros subdomínios, se houver
         ));
+
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true); // ajuste conforme necessidade
