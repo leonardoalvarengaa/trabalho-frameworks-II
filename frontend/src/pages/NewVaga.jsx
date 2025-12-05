@@ -1,58 +1,48 @@
-import React, { useState } from 'react'
-import api from '../api'
-import { useNavigate } from 'react-router-dom'
-import {
-  Box, TextField, Button, Typography, MenuItem, Paper
-} from '@mui/material'
+import React, { useState } from "react";
+import Container from "@mui/material/Container";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import api from "../services/api";
+import { useNavigate } from "react-router-dom";
 
-export default function NewVaga(){
-  const [form, setForm] = useState({
-    nome: '', empresa: '', cidade: '', tipo: '', descricao: '', salario: ''
-  })
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-  const navigate = useNavigate()
+export default function NewVaga() {
+  const [form, setForm] = useState({ titulo: "", empresa: "", cidade: "", tipo: "", descricao: "", salario: "" });
+  const navigate = useNavigate();
 
-  const tipos = ['CLT', 'Estágio', 'PJ']
-
-  function handleChange(e){
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
   }
 
-  async function handleSubmit(e){
-    e.preventDefault()
-    setError(null)
-    setLoading(true)
+  async function handleSubmit(e) {
+    e.preventDefault();
     try {
-      const payload = { ...form, salario: form.salario ? Number(form.salario) : null }
-      const res = await api.post('/vagas', payload)
-      // after creating, redirect to detail
-      navigate(`/vagas/${res.data.id}`)
+      const payload = { ...form, salario: form.salario ? Number(form.salario) : null };
+      await api.post("/vagas", payload);
+      navigate("/");
     } catch (err) {
-      setError(err.response?.data?.message || err.message || 'Erro ao criar vaga')
-    } finally {
-      setLoading(false)
+      console.error(err);
+      alert("Erro ao criar vaga");
     }
   }
 
   return (
-    <Paper sx={{ p: 3 }}>
-      <Typography variant="h5" gutterBottom>Nova Vaga</Typography>
-      <Box component="form" onSubmit={handleSubmit} sx={{ display: 'grid', gap: 2 }}>
-        <TextField name="nome" label="Nome da vaga" required value={form.nome} onChange={handleChange} />
-        <TextField name="empresa" label="Empresa" required value={form.empresa} onChange={handleChange} />
-        <TextField name="cidade" label="Cidade" required value={form.cidade} onChange={handleChange} />
-        <TextField select name="tipo" label="Tipo" required value={form.tipo} onChange={handleChange}>
-          {tipos.map(t => <MenuItem key={t} value={t}>{t}</MenuItem>)}
-        </TextField>
-        <TextField name="descricao" label="Descrição" multiline rows={4} value={form.descricao} onChange={handleChange} />
-        <TextField name="salario" label="Salário (opcional)" type="number" value={form.salario} onChange={handleChange} />
-        {error && <Typography color="error">{error}</Typography>}
-        <Box sx={{ display: 'flex', gap: 2 }}>
-          <Button variant="contained" type="submit" disabled={loading}>{loading ? 'Enviando...' : 'Cadastrar'}</Button>
-          <Button variant="outlined" onClick={() => navigate(-1)}>Cancelar</Button>
+    <Container maxWidth="sm">
+      <Typography variant="h5" mb={2}>Criar nova vaga</Typography>
+      <Box component="form" onSubmit={handleSubmit} display="flex" flexDirection="column" gap={2}>
+        <TextField label="Título" name="titulo" value={form.titulo} onChange={handleChange} required />
+        <TextField label="Empresa" name="empresa" value={form.empresa} onChange={handleChange} />
+        <TextField label="Cidade" name="cidade" value={form.cidade} onChange={handleChange} />
+        <TextField label="Tipo" name="tipo" value={form.tipo} onChange={handleChange} />
+        <TextField label="Descrição" name="descricao" value={form.descricao} onChange={handleChange} multiline rows={4} />
+        <TextField label="Salário" name="salario" value={form.salario} onChange={handleChange} />
+        <Box display="flex" gap={2} justifyContent="flex-end">
+          <Button variant="outlined" onClick={() => navigate("/")}>Cancelar</Button>
+          <Button variant="contained" type="submit">Criar</Button>
         </Box>
       </Box>
-    </Paper>
-  )
+    </Container>
+  );
 }

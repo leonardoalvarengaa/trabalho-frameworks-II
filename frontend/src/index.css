@@ -1,6 +1,5 @@
 body {
+  background: #f4f6f8;
   margin: 0;
-  font-family: 'Roboto', sans-serif;
-  background: #f5f7fb;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
-a { text-decoration: none; color: inherit; }
