@@ -1,11 +1,10 @@
 // src/services/api.js
 import axios from "axios";
 
-// No Vite use import.meta.env. Defina VITE_API_URL em .env.local se quiser.
 const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: BASE_URL,
   headers: { "Content-Type": "application/json" },
 });
 
