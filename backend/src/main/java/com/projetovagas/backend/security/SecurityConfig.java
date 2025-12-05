@@ -61,16 +61,23 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        // em dev: permita o frontend local; em produção, coloque o domínio real
+
+    // Lista segura de origins: coloque os domínios que irão acessar sua API
         config.setAllowedOrigins(List.of(
-        "http://localhost:5173", // dev
-        "https://trab-frameworks-ii-git-main-leonardo-s-projects-d7597549.vercel.app",
-        "https://www.seu-dominio.vercel.app" // outros subdomínios, se houver
+            "http://localhost:5173", // dev
+            "http://localhost:3000", // dev alternativo
+            "https://trab-frameworks-ii.vercel.app", // seu Vercel (ajuste se for outro)
+            "https://trab-frameworks-ii-git-main-leonardo-s-projects-d7597549.vercel.app", // alternativa (se usar)
+            "https://projeto-vagas-backend-9i0c.onrender.com" // opcional
         ));
 
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        // se quiser DEBUG rápido (NÃO deixar em produção com credentials=true):
+        // config.setAllowedOrigins(List.of("*"));
+
+        config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true); // ajuste conforme necessidade
+        config.setAllowCredentials(true);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
